@@ -1,0 +1,64 @@
+const axios = require('axios');
+
+// 🗝️ Claves API
+const OPENWEATHERMAP_API_KEY = 'a9ef1e7ad8015517baa7155e2e3973db';
+const ACCUWEATHER_API_KEY = 'up0Ggbp9hzQJ6AstUEJ84O8MH4yNjC7d';
+
+// 📍 Ubicación
+const ciudad = 'Medellín';
+
+// 🌤️ OpenWeatherMap: obtener clima actual
+const obtenerClimaDesdeOpenWeather = async () => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${OPENWEATHERMAP_API_KEY}&units=metric&lang=es`;
+  const respuesta = await axios.get(url);
+  const data = respuesta.data;
+  return {
+    proveedor: 'OpenWeatherMap',
+    ciudad: data.name,
+    temperatura: data.main.temp,
+    descripcion: data.weather[0].description,
+    viento: data.wind.speed,
+    humedad: data.main.humidity
+  };
+};
+
+// 🔎 AccuWeather: obtener locationKey y luego clima
+const obtenerClimaDesdeAccuWeather = async () => {
+  const locationUrl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${ACCUWEATHER_API_KEY}&q=${ciudad}`;
+  const locationResp = await axios.get(locationUrl);
+  const locationKey = locationResp.data[0].Key;
+
+  const climaUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${ACCUWEATHER_API_KEY}&language=es&details=true`;
+  const climaResp = await axios.get(climaUrl);
+  const clima = climaResp.data[0];
+
+  return {
+    proveedor: 'AccuWeather',
+    ciudad: locationResp.data[0].LocalizedName,
+    temperatura: clima.Temperature.Metric.Value,
+    descripcion: clima.WeatherText,
+    viento: clima.Wind.Speed.Metric.Value,
+    humedad: clima.RelativeHumidity
+  };
+};
+
+// 🏁 Función principal con Promise.race()
+async function mostrarClimaMasRapido() {
+  try {
+    const resultado = await Promise.race([
+      obtenerClimaDesdeOpenWeather(),
+      obtenerClimaDesdeAccuWeather()
+    ]);
+
+    console.log(`✅ Resultado más rápido desde ${resultado.proveedor}`);
+    console.log(`Ciudad: ${resultado.ciudad}`);
+    console.log(`Temperatura: ${resultado.temperatura}°C`);
+    console.log(`Descripción: ${resultado.descripcion}`);
+    console.log(`Humedad: ${resultado.humedad}%`);
+    console.log(`Viento: ${resultado.viento} m/s`);
+  } catch (error) {
+    console.error('❌ Error al obtener el clima:', error.message);
+  }
+}
+
+mostrarClimaMasRapido();
