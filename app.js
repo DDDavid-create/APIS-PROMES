@@ -50,14 +50,14 @@ async function mostrarClimaMasRapido() {
       obtenerClimaDesdeAccuWeather()
     ]);
 
-    console.log(`✅ Resultado más rápido desde ${resultado.proveedor}`);
+    console.log(`Resultado más rápido desde ${resultado.proveedor}`);
     console.log(`Ciudad: ${resultado.ciudad}`);
     console.log(`Temperatura: ${resultado.temperatura}°C`);
     console.log(`Descripción: ${resultado.descripcion}`);
     console.log(`Humedad: ${resultado.humedad}%`);
     console.log(`Viento: ${resultado.viento} m/s`);
   } catch (error) {
-    console.error('❌ Error al obtener el clima:', error.message);
+    console.error('Error al obtener el clima:', error.message);
   }
 }
 
