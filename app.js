@@ -1,10 +1,10 @@
 const axios = require('axios');
 
-// 🗝️ Claves API
+
 const OPENWEATHERMAP_API_KEY = 'a9ef1e7ad8015517baa7155e2e3973db';
 const ACCUWEATHER_API_KEY = 'up0Ggbp9hzQJ6AstUEJ84O8MH4yNjC7d';
 
-// 📍 Ubicación
+
 const ciudad = 'Medellín';
 
 
@@ -28,7 +28,7 @@ const obtenerClimaDesdeOpenWeather = async () => {
   };
 };
 
-// 🔎 AccuWeather: obtener locationKey y luego clima
+
 const obtenerClimaDesdeAccuWeather = async () => {
   inicio = Date.now();
   const locationUrl = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${ACCUWEATHER_API_KEY}&q=${ciudad}`;
@@ -53,7 +53,7 @@ const obtenerClimaDesdeAccuWeather = async () => {
   };
 };
 
-// 🏁 Función principal con Promise.race()
+
 async function mostrarClimaMasRapido() {
   try {
     const resultado = await Promise.race([
