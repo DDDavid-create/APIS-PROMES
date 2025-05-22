@@ -80,15 +80,7 @@ async function sendToGemini() {
             responseContainer2.textContent = `Error: ${response2.status} - ${errorData2.error?.message || 'Error desconocido. Revisa la consola para más detalles.'}`; 
             return;
         }
-        /*
-        if (!response2.ok) {
-            const errorData = await response2.json();
-            console.error("Error en la API:", errorData);
-            responseContainer2.textContent = `Error: ${response2.status} - ${errorData.error?.message || 'Error desconocido. Revisa la consola para más detalles.'}`;
-            return;
-        }
-            */
-
+        
         // Procesar la respuesta de Google Gemini
         if (geminiData?.candidates?.[0]?.content?.parts?.[0]?.text) {
             responseContainer.textContent = geminiData.candidates[0].content.parts[0].text.trim();
