@@ -53,7 +53,7 @@ async function sendToGemini() {
         },
         body: JSON.stringify(requestBody)
     });
-    
+
     const response2 = await fetch(API_URL_MISTRAL, {
         method: 'POST',
         headers: {
@@ -94,22 +94,6 @@ async function sendToGemini() {
         } else {
             responseContainer2.textContent = "Respuesta inválida de Mistral.";
         }
-
-        /*
-        if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
-            responseContainer.textContent = data.candidates[0].content.parts[0].text;
-        }
-        
-        if (data2.candidates && data2.candidates.length > 0 && data2.candidates[0].content && data2.candidates[0].content.parts && data2.candidates[0].content.parts.length > 0) {
-            responseContainer2.textContent = data2.candidates[0].content.parts[0].text;
-        } else if (data.promptFeedback && data.promptFeedback.blockReason) {
-            responseContainer.textContent = `Solicitud bloqueada: ${data.promptFeedback.blockReason}. Razón: ${data.promptFeedback.blockReasonMessage || 'No se proporcionó un mensaje específico.'}`;
-        }
-        else {
-            responseContainer.textContent = "No se recibió contenido en la respuesta o la estructura es inesperada.";
-            console.log("Respuesta completa de la API:", data);
-        }
-            */
 
 
     } catch (error) {
