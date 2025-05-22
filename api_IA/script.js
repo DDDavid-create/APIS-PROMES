@@ -15,7 +15,7 @@ async function sendToGemini() {
         responseContainer.innerHTML = "<strong>Error:</strong> Por favor, reemplaza 'YOUR_API_KEY' con tu clave de API real en el código JavaScript.";
         return;
     } else if (apiKeyMis === "YOUR_API_KEY") {
-        responseContainer.innerHTML = "<strong>Error:</strong> Por favor, reemplaza 'YOUR_API_KEY' con tu clave de API real en el código JavaScript.";
+        responseContainer2.innerHTML = "<strong>Error:</strong> Por favor, reemplaza 'YOUR_API_KEY' con tu clave de API real en el código JavaScript.";
         return;
     }
 
@@ -68,18 +68,26 @@ async function sendToGemini() {
 
         loader.style.display = 'none'; // Ocultar loader
 
-        if (!response.ok) {
+        if (!response.ok || !response2.ok) {
+            // Manejo de errores para Gemini
             const errorData = await response.json();
-            console.error("Error en la API:", errorData);
+            console.error("Error en la API Gemini:", errorData);
             responseContainer.textContent = `Error: ${response.status} - ${errorData.error?.message || 'Error desconocido. Revisa la consola para más detalles.'}`;
+            
+            // Manejo de errores para Mistral
+            const errorData2 = await response2.json();
+            console.error("Error en la API Mistral:", errorData2);
+            responseContainer2.textContent = `Error: ${response2.status} - ${errorData2.error?.message || 'Error desconocido. Revisa la consola para más detalles.'}`; 
             return;
         }
+        /*
         if (!response2.ok) {
             const errorData = await response2.json();
             console.error("Error en la API:", errorData);
             responseContainer2.textContent = `Error: ${response2.status} - ${errorData.error?.message || 'Error desconocido. Revisa la consola para más detalles.'}`;
             return;
         }
+            */
 
         // Procesar la respuesta de Google Gemini
         if (geminiData?.candidates?.[0]?.content?.parts?.[0]?.text) {
