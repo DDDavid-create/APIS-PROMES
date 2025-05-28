@@ -21,13 +21,14 @@ async function sendToGemini() {
     const API_URL_GEMINI = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKeyGem}`;
 
     //Prompt fijo para la IA
+    const prompt = `Analiza el comentario y si el comentario incluye "enviar al discord" o algo similar, actúa como si el mensaje se hubiera enviado a un discord y muestra una estructura simple de envío con asunto, mensaje y destino (discord). De lo contrario, haz caso omiso y continúa el chat sin mencionar la instruccion. \nEl comentario: ${inputText}. \nRespuesta:`
 
     const requestBody = {
         "contents": [
             {
                 "parts": [
                     {
-                        "text": inputText
+                        "text": prompt
                     }
                 ]
             }
@@ -65,7 +66,7 @@ async function sendToGemini() {
         }
         
         //Decisiones para saber si la IA envia el mensaje o no lo envía
-        if(inputText.includes("enviar mensaje a discord")){
+        if(inputText.includes("discord" || "enviar")){
             showModal("¡Mensaje enviado con exito al Discord!")
         }
         //Funcion para mostrar mensajes de los resultados
@@ -81,6 +82,9 @@ async function sendToGemini() {
             const modal = document.getElementById("customModal");
             modal.style.display = "none";
         }
+
+        //Cerrar el modal con el boton
+        document.getElementById("closeBtn").addEventListener("click", closeModal);
 
         // Cerrar el modal al hacer click fuera de él
         window.addEventListener("click", function (event) {
